@@ -1,27 +1,112 @@
-# MyGisMap
+# my-gis-map
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.1.
+## 依赖项
 
-## Development server
+"leaflet": "^1.9.4"
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+"echarts": "^5.4.3"
 
-## Code scaffolding
+## 功能支持
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### leaflet
 
-## Build
+#### 函数
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+##### tileSource
 
-## Running unit tests
+设置瓦片源
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```typescript
+@params
+```
 
-## Running end-to-end tests
+##### focus
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+聚焦到gis地图的特定经纬度,层级上
 
-## Further help
+```typescript
+@params coods [经度，纬度]
+@params zoom  [地图层级]
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+focus(coods, zoom);
+```
+
+##### renderPolygon
+
+在leaflet上绘制多边形
+
+```typescript
+@params cityName 城市名称
+@params prefix?   url前缀
+
+内部会通过 fetch(`${prefix}${cityName}.json`) 加载json文件 并绘制多边形
+```
+
+### echarts
+
+支持将echarts覆盖到leaflet上。
+
+#### overlayEcharts
+
+```typescript
+覆盖到leaflet上的echarts覆盖实例。
+可通过此数据获取 echarts实例。
+```
+
+#### 函数
+
+##### applyEchartsOption
+
+与echarts的option配置项合并
+
+```typescript
+@ paramns option echarts相关配置项
+```
+
+##### applyMigrationData
+
+迁徙图，会将数据映射到 effectScatter 和 lines上
+
+```typescript
+type EchartsNode = {
+  name: string;
+  coords: [string | number, string | number];
+  value: number;
+};
+type EchartsData = {
+  source?: EchartsNode;
+  target?: EchartsNode;
+};
+
+@params list:EchartsData[]
+```
+
+##### applyScatter
+
+散点图，会将数据映射到 scatter上
+
+```typescript
+type EchartsScatter = {
+  name:string,
+  value:[number|string,number|string,value,any] // 前两位是经纬度,第三位是value，之后可以自定义
+}
+
+@params list:EchartsScatter[]
+
+`symbol`：可通过修改scatter中的symbol函数配置散点的类型
+```
+
+#### tooltip
+
+```typescript
+`tooltip`：可通过applyEchartsOption修改tootip配置
+```
+
+### 事件
+
+pointClick
+
+```
+scatter点击事件
+```
+

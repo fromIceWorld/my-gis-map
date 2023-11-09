@@ -11,7 +11,7 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-builders/custom-webpack:browser",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/my-gis-map",
             "index": "src/index.html",
@@ -20,10 +20,7 @@
             "tsConfig": "tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": ["src/styles.css", "src/assets/lib/leaflet.css"],
-            "scripts": [],
-            "customWebpackConfig": {
-              "path": "extra-webpack.config.js"
-            }
+            "scripts": []
           },
           "configurations": {
             "production": {

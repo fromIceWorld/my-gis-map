@@ -1,183 +1,89 @@
-import { EchartsService } from "../echarts.service";
 function getEchartsOption() {
   return {
-    title: {
-      text: "",
-      subtext: "",
-      sublink: "",
-      x: "center",
-      textStyle: {
-        color: "#fff",
+    geo3D: {
+      map: "50000",
+      roam: true,
+      tooltip: {
+        show: true,
+        trigger: "axis",
       },
-    },
-    tooltip: {
-      trigger: "item",
-      backgroundColor: "#fff0",
-      formatter: function (params) {
-        console.log("tootip", params);
-        const { name, gis } = params.data;
-        const { threatIndex, loophole, flow, events } = gis;
-        return `<div id="customTooltip"
-        style="
-          background: url(assets/img/M1_card_bg.png)
-            no-repeat center;
-          width: 22.4rem;
-          height: 12.5rem;
-          background-size: 100% 100%;
-          filter: none;
-          position: relative;
-          align-items: center;
-          display: flex;
-          justify-content: space-around;
-          background-size: cover;
-          padding-right: 2rem;
-          padding-left: 1rem;
-        "
-      >
-        <div
-          style="
-            color: rgb(250 255 250);
-            height: 2.9rem;
-            /* line-height: 5.3rem; */
-            /* padding-left: 5.3rem; */
-            position: absolute;
-            font-size: 1.6rem;
-            left: 1.5rem;
-            top: 0.2rem;
-          "
-        >
-        ${name}
-        </div>
-        <div style="display: flex; justify-content: space-evenly; flex: 2">
-          <div style="text-align: center">
-            <p
-              style="
-                color: #c4deff;
-                font-size: 1.3rem;
-                font-family: Microsoft YaHei;
-                height: 1.3rem;
-                line-height: 1.3rem;
-                margin-top: 3rem;
-              "
-            >
-              威胁指数
-            </p>
-            <p
-              id="obj0"
-              style="
-                color: #ffce4c;
-                font-family: myFirstFont;
-                font-size: 4rem;
-                height: 4rem;
-                line-height: 4rem;
-                margin-top: 0.8rem;
-              "
-            >
-              ${threatIndex}
-            </p>
-          </div>
-        </div>
-        <div
-          style="display: flex; flex-direction: column; flex: 3; padding-left: 1rem"
-        >
-          <div
-            style="display: flex; margin-top: 3.6rem; justify-content: space-between"
-          >
-            <p
-              style="
-                font-size: 1.2rem;
-                color: #6fc7ff;
-                height: 1.2rem;
-                line-height: 1.2rem;
-              "
-            >
-              漏洞总数
-            </p>
-            <p
-              id="obj1"
-              style="
-                font-size: 1.2rem;
-                color: #ecfbff;
-                height: 1.7rem;
-                line-height: 1.7rem;
-              "
-            >
-            ${loophole}
-            </p>
-          </div>
-          <div
-            style="display: flex; margin-top: 1.4rem; justify-content: space-between"
-          >
-            <p
-              style="
-                font-size: 1.2rem;
-                color: #6fc7ff;
-                height: 1.2rem;
-                line-height: 1.2rem;
-              "
-            >
-              境外异常流量
-            </p>
-            <p
-              id="obj2"
-              style="
-                font-size: 1.2rem;
-                color: #ecfbff;
-                height: 1.7rem;
-                line-height: 1.7rem;
-              "
-            >
-            ${flow}
-            </p>
-          </div>
-          <div
-            style="display: flex; margin-top: 1rem; justify-content: space-between"
-          >
-            <p
-              style="
-                font-size: 1.2rem;
-                color: #6fc7ff;
-                height: 1.2rem;
-                line-height: 1.2rem;
-              "
-            >
-              安全事件
-            </p>
-            <p
-              id="obj3"
-              style="
-                font-size: 1.2rem;
-                color: #ecfbff;
-                height: 1.7rem;
-                line-height: 1.7rem;
-              "
-            >
-            ${events}
-            </p>
-          </div>
-        </div>
-      </div>`;
+      itemStyle: {
+        color: "#efcbcb",
+        borderWidth: 1.5,
+        borderColor: "#459bca",
+        shadowOffsetX: 1000,
+        shadowOffsetY: 100,
+        opacity: 0.8, //透明度
+        shadowBlur: 8, //阴影大小
+        type: "dotted", //实线
       },
-    },
-    legend: {
-      orient: "vertical",
-      y: "bottom",
-      x: "right",
-      data: ["pm2.5"],
-      textStyle: {
-        color: "#fff",
+      shading: "realistic",
+      label: {
+        show: true,
+        textStyle: {
+          color: "#00ff7f",
+          fontSize: 8,
+          opacity: 1,
+        },
+        formatter: (params) => `${params.name}`,
       },
+      light: {
+        main: {
+          color: "#fff",
+          intensity: 1,
+          shadow: true,
+          alpha: 40,
+          beta: 30,
+        },
+        ambient: {
+          intensity: 0,
+        },
+        ambientCubemap: {
+          cubemap: {},
+          diffuseIntensity: 1,
+          texture: "",
+        },
+      },
+
+      groundPlane: {
+        show: false,
+      },
+      visualMap: {
+        //视角控制
+        show: true,
+        min: 0,
+        max: 100,
+        calculable: true,
+      },
+      globe: {
+        // 光照效果
+        baseColor: "#fff0.5",
+        shading: "color",
+      },
+      regions: [
+        // {
+        //   name: '北京市',
+        //   itemStyle: {
+        //     color: 'red',
+        //   },
+        // },
+        {
+          name: "河北省",
+          itemStyle: {
+            color: "red",
+          },
+        },
+
+        {
+          name: "河南省",
+          itemStyle: {
+            color: "yellow",
+          },
+        },
+      ],
     },
-    // visualMap: {
-    //     min: 0,
-    //     max: 200,
-    //     calculable: true,
-    //     inRange: {
-    //         color: ['#50a3ba', '#eac736', '#d94e5d'],
-    //     },
-    //     textStyle: {
-    //         color: '#fff',
-    //     },
+    // colorMaterial: {
+    //   detailTexture: pattern,
     // },
     geo: {
       map: "50000",
@@ -197,59 +103,166 @@ function getEchartsOption() {
         },
       },
     },
+    tooltip: {
+      show: true,
+      trigger: "item",
+    },
     series: [
       {
-        name: "",
         type: "scatter",
         coordinateSystem: "geo",
-        data: [],
-        symbol: (arr, params) => {
-          const [lng, lat, value] = arr;
-          return `image://assets/img/map-ico${value > 100 ? 5 : 6}.png`;
+        symbolSize: [30, 40],
+        symbolOffset: [-10, -10],
+        symbolRotate: 45,
+        zlevel: 4,
+        symbolKeepAspect: true,
+        symbol: (value, params) => {
+          const [, , , type] = value;
+          let img = type == 1 ? "source" : "target";
+          return `image://assets/img/${img}.png`;
         },
-        // symbol: "circle",
-        symbolSize: [20, 40],
-        label: {
-          normal: {
-            show: false,
-          },
-          emphasis: {
-            show: false,
-          },
-        },
-        itemStyle: {
-          emphasis: {
-            borderColor: "#fff",
-            borderWidth: 1,
-          },
-        },
+        /**
+         * @value
+         * source:1
+         * target:0
+         * [经度，纬度，value,source/target]
+         */
+        data: [
+          // {
+          //   name: "北京",
+          //   value: [116.405285, 39.904989, 5, 1],
+          // },
+          // {
+          //   name: "花都",
+          //   value: [113.211184, 23.39205, 5, 0],
+          // },
+          // {
+          //   name: "天河",
+          //   value: [113.335367, 23.13559, 5, 0],
+          // },
+          // {
+          //   name: "黄埔",
+          //   value: [113.450761, 23.103239, 5, 0],
+          // },
+          // {
+          //   name: "南沙",
+          //   value: [113.53738, 22.794531, 5, 1],
+          // },
+          // {
+          //   name: "新疆",
+          //   value: [87.617733, 43.792818, 2, 1],
+          // },
+        ],
       },
-      // {
-      //   type: "lines",
-      //   zlevel: 50,
-      //   effect: {
-      //     show: true,
-      //     period: 8,
-      //     trailLength: 0.01,
-      //     symbol: "arrow",
-      //     symbolSize: 5,
-      //   },
-      //   lineStyle: {
-      //     normal: {
-      //       color: "red",
-      //       curveness: 0.5,
-      //       width: 1,
-      //       opacity: 1,
-      //     },
-      //   },
-      //   data: [
-      //     [
-      //       { name: "北京", coord: [116.405285, 39.904989] },
-      //       { name: "苏尼特左旗", coord: [113.653412, 43.854108] },
-      //       123,
-      //     ],
-      //   ],
-      // },
+      {
+        //涟漪图
+        type: "effectScatter",
+        coordinateSystem: "geo",
+        showEffectOn: "render",
+        rippleEffect: {
+          brushType: "stroke",
+          period: 6,
+          number: 3,
+          scale: 4.5,
+        },
+        symbolKeepAspect: true,
+        label: {
+          show: true,
+          color: "#FFF", //字体颜色
+          position: "right",
+          fontSize: 8,
+          formatter: function (params) {
+            return params.name;
+          },
+        },
+        symbolSize: 10,
+        itemStyle: {
+          color: (params) => {
+            const { value } = params;
+            const [, , , type] = value;
+            return type == 1 ? "#facf1975" : "#ff391b";
+          }, //散点颜色
+        },
+        data: [
+          // {
+          //   name: "北京",
+          //   value: [116.405285, 39.904989, 5, 1],
+          // },
+          // {
+          //   name: "花都",
+          //   value: [113.211184, 23.39205, 5, 0],
+          // },
+          // {
+          //   name: "天河",
+          //   value: [113.335367, 23.13559, 5, 0],
+          // },
+          // {
+          //   name: "黄埔",
+          //   value: [113.450761, 23.103239, 5, 0],
+          // },
+          // {
+          //   name: "南沙",
+          //   value: [113.53738, 22.794531, 5, 0],
+          // },
+          // {
+          //   name: "新疆",
+          //   value: [87.617733, 43.792818, 2, 0],
+          // },
+        ],
+      },
+      {
+        type: "lines",
+        coordinateSystem: "geo",
+        zlevel: 50,
+        zlevel: 1,
+        effect: {
+          show: true,
+          color: "red",
+          period: 6, //箭头指向速度，值越小速度越快
+          trailLength: 0.5, //特效尾迹长度[0,1]值越大，尾迹越长重
+          symbol: "circle", //箭头图标
+          // symbol: "image://assets/img/source.png", //箭头图标
+          symbolSize: 5, //图标大小
+        },
+        lineStyle: {
+          color: "white",
+          width: 1, //尾迹线条宽度
+          opacity: 0.01, //尾迹线条透明度
+          curveness: 0.3, //尾迹线条曲直度
+        },
+        emphasis: {
+          lineStyle: {
+            color: "white",
+            width: 1, //尾迹线条宽度
+            opacity: 0.3, //尾迹线条透明度
+            curveness: 0.3, //尾迹线条曲直度
+          },
+          disabled: false,
+          focus: "series",
+        },
+
+        selectMode: true,
+        select: {
+          lineStyle: {
+            color: "white",
+            width: 1, //尾迹线条宽度
+            opacity: 1, //尾迹线条透明度
+            curveness: 0.3, //尾迹线条曲直度
+          },
+        },
+        data: [
+          // [
+          //   { name: "北京", coord: [116.405285, 39.904989] },
+          //   { name: "南沙", coord: [113.53738, 22.794531] },
+          //   123,
+          // ],
+          // [
+          //   { name: "北美洲", coord: [-100, 43.854108] },
+          //   { name: "苏尼特左旗", coord: [113.653412, 43.854108] },
+          //   123,
+          // ],
+        ],
+      },
     ],
   };
 }

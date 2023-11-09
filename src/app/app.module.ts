@@ -56,17 +56,33 @@ export class AppModule {
     const gisMap = createCustomElement2(AppComponent, {
       injector: this.injector,
     });
-    gisMap.prototype.applyData = function (list: any[]) {
+    gisMap.prototype.applyMigrationData = function (list: any[]) {
       const ins = this._ngElementStrategy.componentRef.instance;
-      ins.applyEchartsPoint(list);
+      ins.applyMigrationData(list);
+    };
+    gisMap.prototype.applyScatter = function (list: any[]) {
+      const ins = this._ngElementStrategy.componentRef.instance;
+      ins.applyScatter(list);
     };
     gisMap.prototype.renderPolygon = function (city: string) {
       const ins = this._ngElementStrategy.componentRef.instance;
       ins.renderPolygon(city);
     };
+    gisMap.prototype.setTileSource = function (source: string) {
+      const ins = this._ngElementStrategy.componentRef.instance;
+      ins.setTileSource(source);
+    };
     gisMap.prototype.focus = function (coods: number[], zoom: number) {
       const ins = this._ngElementStrategy.componentRef.instance;
       ins.focus(coods, zoom);
+    };
+    gisMap.prototype.getEchartsOption = function () {
+      const ins = this._ngElementStrategy.componentRef.instance;
+      return ins.getEchartsOption();
+    };
+    gisMap.prototype.applyEchartsOption = function (option: any) {
+      const ins = this._ngElementStrategy.componentRef.instance;
+      ins.applyEchartsOption(option);
     };
     this.registerEl('my-gis-map', gisMap);
   }

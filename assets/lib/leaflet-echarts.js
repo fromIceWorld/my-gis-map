@@ -1,5 +1,4 @@
-import * as echarts from "./echarts.min5.4.3";
-
+import * as echarts from "./ecahrts.min4.9";
 import { EchartsService } from "../../app/echarts.service";
 function overlayEchartsInit() {
   // window.overlayEchartsIndex = 999;
