@@ -47,6 +47,7 @@ export class AppComponent implements OnInit {
   overlayEcharts: any;
   center = [37.550339, 104.114129];
   zoom = 4;
+  tileLayer: any;
   tileSource = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png';
   tileSourceGeoq =
     'https://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{z}/{y}/{x}';
@@ -64,7 +65,7 @@ export class AppComponent implements OnInit {
   }
   // 设置瓦片源
   setTileSource(source = this.tileSourceGeoq) {
-    this.tileSourceCustom = source;
+    this.tileLayer.setUrl(source, false);
   }
   // 初始化gis地图
   initMap() {
@@ -77,7 +78,7 @@ export class AppComponent implements OnInit {
       zoomControl: false, // 缩放按钮
       attributionControl: false,
     }));
-    L.tileLayer(this.tileSourceCustom).addTo(map);
+    this.tileLayer = L.tileLayer(this.tileSourceCustom).addTo(map);
     //@ts-ignore
     this.focus(this.center, this.zoom); //设置缩放级别及中心点
   }

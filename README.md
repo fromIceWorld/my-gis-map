@@ -12,7 +12,7 @@
 
 #### 函数
 
-##### tileSource
+##### setTileSource
 
 设置瓦片源
 
