@@ -78,7 +78,7 @@ export class AppComponent implements OnInit {
       zoomControl: false, // 缩放按钮
       attributionControl: false,
     }));
-    this.tileLayer = L.tileLayer(this.tileSourceCustom).addTo(map);
+    this.tileLayer = L.tileLayer(this.tileSource).addTo(map);
     //@ts-ignore
     this.focus(this.center, this.zoom); //设置缩放级别及中心点
   }
