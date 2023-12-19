@@ -4,21 +4,21 @@
  * view 节点的范围 [1:只在视图区, 2:只在关系区, 3:即在视图区也在关系区]
  */
 const components = [
-    {
-      id: "gis-map",
-      type: "node",
-      icon: "global",
-      title: `地图:
+  {
+    id: "gis-map",
+    type: "node",
+    icon: "#icon-gisditu",
+    title: `地图:
                     Angular@16.1+leaflet+echarts`,
-      view: 4,
-      family: "chart",
-      color: "#2f938f",
-      des: "基础的gis地图",
-      component: "GisMapComponent",
-    },
-  ],
-  file = "dist/my-gis-map/";
-const http = require("http"),
+    view: 4,
+    family: "chart",
+    color: "#2f938f",
+    des: "基础的gis地图",
+    component: "GisMapComponent",
+  },
+];
+const fs = require("fs"),
+  path = require("path"),
   request = require("request");
 const filesName = [
   { name: "main.js", decorator: { defer: true } },
@@ -27,51 +27,59 @@ const filesName = [
   //   { name: 'vendor.js', decorator: { defer: true } },
   "styles.css",
 ];
+const area = "gis",
+  folderPath = "./dist/my-gis-map";
+components.map((item) => {
+  item["filesName"] = filesName;
+  item["area"] = area;
+});
 let options = {
   url: "http://127.0.0.1:3000/upload",
   method: "POST",
-  json: true,
   headers: {
-    "content-type": "application/json",
+    "content-type": "multipart/form-data",
   },
-  body: {},
-};
-let files = [],
-  area = "gis";
-filesName.forEach((fileName) => {
-  let name = typeof fileName == "string" ? fileName : fileName.name;
-  let content = require("fs").readFileSync(file + name);
-  let buffer = Buffer.from(content);
-  files.push({
-    name,
-    content: buffer.toString(),
-  });
-});
-
-let componentsConfig = components.map((item) => {
-  return {
-    ...item,
-    filesName: [...filesName, { name: "iconfont.js", decorator: {} }],
+  formData: {
+    files: [],
     area,
-  };
-});
-request(
-  {
-    ...options,
-    body: {
-      code: 200,
-      data: {
-        components: componentsConfig,
-        content: files,
-        area,
-      },
-    },
+    components: JSON.stringify(components),
   },
-  (err, res, body) => {
-    if (res.statusCode === 200) {
-      console.log(filesName, res.statusCode, "上传完成");
+};
+
+// 递归遍历文件夹中的所有文件
+function uploadFolder(folderPath, dir) {
+  const files = fs.readdirSync(folderPath);
+  files.forEach((file) => {
+    const filePath = folderPath + "/" + file;
+    // 判断是否为文件夹
+    if (fs.statSync(filePath).isDirectory()) {
+      // 递归上传子文件夹
+      uploadFolder(filePath, dir + "/" + file);
     } else {
-      console.log(body);
+      // 上传文件
+      uploadFile(filePath, dir, file);
     }
+  });
+}
+
+// 缓存上传文件
+function uploadFile(filePath, dir, fileName) {
+  const content = fs.readFileSync(path.resolve(__dirname, filePath));
+  options.formData.files.push({
+    content: Buffer.from(content).toString(),
+    dir,
+    fileName,
+  });
+}
+// 将文件缓存
+uploadFolder(folderPath, "");
+console.log("共上传文件数：", options.formData.files.length);
+//@ts-ignore
+options.formData.files = JSON.stringify(options.formData.files);
+request(options, (err, res, body) => {
+  if (res.statusCode === 200) {
+    console.log("上传完成");
+  } else {
+    console.log(body);
   }
-);
+});
