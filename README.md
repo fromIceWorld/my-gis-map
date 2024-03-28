@@ -38,8 +38,16 @@ focus(coods, zoom);
 ```typescript
 @params cityName 城市名称
 @params prefix?   url前缀
-
+@return polygon 返回多边形，可销毁
 内部会通过 fetch(`${prefix}${cityName}.json`) 加载json文件 并绘制多边形
+```
+
+##### removePolygon
+
+销毁多边形
+
+```typescript
+@params polygon 多边形
 ```
 
 ### echarts

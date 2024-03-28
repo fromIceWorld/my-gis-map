@@ -6,6 +6,7 @@
 const components = [
   {
     id: "gis-map",
+    name:"GIS",
     type: "node",
     icon: "#icon-gisditu",
     title: `地图:

@@ -57,7 +57,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.initMap();
     this.initEcharts();
-    // this.renderPolygon('shandong');
+    this.renderPolygon('shandong');
     // this.createIconMarker();
     EchartsService.eventBus.subscribe((res: any) => {
       this.pointClick.emit(res);
@@ -78,7 +78,7 @@ export class AppComponent implements OnInit {
       zoomControl: false, // 缩放按钮
       attributionControl: false,
     }));
-    this.tileLayer = L.tileLayer(this.tileSource).addTo(map);
+    this.tileLayer = L.tileLayer(this.tileSourceCustom).addTo(map);
     //@ts-ignore
     this.focus(this.center, this.zoom); //设置缩放级别及中心点
   }
@@ -101,6 +101,10 @@ export class AppComponent implements OnInit {
     );
     // zoom the map to the polygon
     this.gisIns.fitBounds(polygon.getBounds());
+    return polygon;
+  }
+  removePolygon(polygon: any) {
+    this.gisIns.removeLayer(polygon);
   }
   // 贴 echarts 内部配置由echarts决定【散点图，热力图，飞线图....】
   initEcharts() {
@@ -184,9 +188,7 @@ export class AppComponent implements OnInit {
     });
     return {
       tagName: `${tagName}`,
-      html: `<${tagName} _data="_ngElementStrategy.componentRef.instance"
-                        _methods="_ngElementStrategy.componentRef.instance" 
-                       ></${tagName}>`,
+      html: `<${tagName}></${tagName}>`,
       js: `class MyGis${index} extends ${className}{
              constructor(){
                  super();
